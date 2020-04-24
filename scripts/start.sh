@@ -35,7 +35,9 @@ waitForHealthy() {
 # @arg $1 string the docker-compose service name
 # @arg $@ string the command
 execute() {
-  docker-compose exec "$@"
+  ID="$(getContainerId "$1")"
+  shift
+  docker exec "$ID" "$@"
 }
 
 # Start container
