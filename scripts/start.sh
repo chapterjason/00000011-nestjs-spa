@@ -40,6 +40,8 @@ execute() {
   docker exec "$ID" "$@"
 }
 
+# Install dependencies
+yarn install
 # Start container
 docker-compose up -d
 # Wait till the database is online
