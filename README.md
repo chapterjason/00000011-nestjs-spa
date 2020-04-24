@@ -23,8 +23,8 @@ nestjs-single-page-application/
 
 ### Start
 
-Just run the script `start.sh`
+Just run the script `./scripts/start.sh`
 
 ### Stop
 
-Just run the script `stop.sh`
+Just run the script `./scripts/stop.sh`
