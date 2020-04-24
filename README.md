@@ -3,8 +3,7 @@
 
 ## Getting Started
 
-There are several `package.json`-Scripts that will help you for several cases.
-They are prefixed with `frontend`, `backend` and `docker`.
+There are several `package.json`-Scripts, do not use them, just work with the Docker container.
 
 ### Folder Structure
 
