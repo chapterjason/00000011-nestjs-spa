@@ -3,16 +3,35 @@ import * as React from "react";
 import { Cat } from "../../Datas/Cat";
 import { Client } from "../../Services/Client";
 import { ValidationError } from "../../Datas/ValidationError";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Header } from "../../Components/Header";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import { useMount } from "react-use";
+import { NotFoundError } from "../../Datas/NotFoundError";
+import { ResponseError } from "../../Datas/ResponseError";
 
-export function CreateCat() {
+export function EditCat() {
+    const { id } = useParams();
     const { client } = React.useContext(ApplicationContext);
     const [name, setName] = React.useState("");
     const [error, setError] = React.useState("");
     const [isLoading, setLoading] = React.useState(false);
     const history = useHistory();
+
+    useMount(async () => {
+        setLoading(true);
+        try {
+            const response = await client.get<Cat>("/api/cats/" + id);
+            setLoading(false);
+            setName(response.data.name);
+        } catch (error) {
+            if (Client.isRequestError<NotFoundError>(error)) {
+                setError(error.response.data.message);
+            } else {
+                setError(error.message);
+            }
+        }
+    });
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (!isLoading) {
@@ -33,17 +52,24 @@ export function CreateCat() {
             setLoading(true);
             setError("");
             try {
-                await client.post<Cat>("/api/cats", { name });
+                await client.patch<Cat>("/api/cats/" + id, { name });
                 setName("");
+                setLoading(false);
+                history.push("/cats");
             } catch (error) {
-                if (Client.isRequestError<ValidationError>(error)) {
-                    setError(error.response.data.message.join("\n"));
+                if (Client.isRequestError<ResponseError>(error)) {
+                    const message = error.response.data.message;
+                    if (Array.isArray(message)) {
+                        setError(message.join("\n"));
+                    } else {
+                        setError(message);
+                    }
+                    if(400 === error.response.status) {
+                        setLoading(false);
+                    }
                 } else {
                     setError(error.message);
                 }
-            } finally {
-                setLoading(false);
-                history.push("/cats");
             }
         }
     }
@@ -53,7 +79,7 @@ export function CreateCat() {
     return (
         <Row className="justify-content-md-center">
             <Col md="5">
-                <Header title="Create Cat">
+                <Header title="Edit Cat">
                     <Button variant="secondary" size="sm" onClick={history.goBack}>
                         <span className="fas fa-chevron-left"/> Back
                     </Button>
@@ -76,7 +102,7 @@ export function CreateCat() {
                             {isLoading ? (
                                 <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"/>
                             ) : (
-                                <span>Create</span>
+                                <span>Save</span>
                             )}
                         </Button>
                     </Col>

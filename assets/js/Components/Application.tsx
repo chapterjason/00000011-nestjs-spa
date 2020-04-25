@@ -1,4 +1,4 @@
-import { BrowserRouter, HashRouter, Link, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import { Home } from "../Pages/Home";
 import { ListCats } from "../Pages/Cats/ListCats";
 import * as React from "react";
@@ -7,6 +7,9 @@ import { Client } from "../Services/Client";
 import { ApplicationContextProps } from "../Contexts/ApplicationContextProps";
 import { ApplicationProps } from "./ApplicationProps";
 import { CreateCat } from "../Pages/Cats/CreateCat";
+import { Col, Container, Row } from "react-bootstrap";
+import { Navigation } from "./Navigation";
+import { EditCat } from "../Pages/Cats/EditCat";
 
 export function Application(props: ApplicationProps) {
     const { base } = props;
@@ -19,28 +22,32 @@ export function Application(props: ApplicationProps) {
     return (
         <ApplicationContextProvider value={applicationContext}>
             <HashRouter>
-                <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-                    <div className="container">
-                        <Link className={"navbar-brand"} to={"/"}>NestJS Single Page Application</Link>
-                        <div className="collapse navbar-collapse">
-                            <ul className="navbar-nav mr-auto">
-                                <li className="nav-item">
-                                    <Link className={"nav-link"} to={"/"}>Home</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={"nav-link"} to={"/cats"}>Cats</Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <div className="container">
-                    <Switch>
-                        <Route exact path="/" component={Home}/>
-                        <Route path="/cats/create" component={CreateCat}/>
-                        <Route path="/cats" component={ListCats}/>
-                    </Switch>
-                </div>
+                <Navigation/>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Switch>
+                                <Route exact path="/" component={Home}/>
+                                <Route path="/cats/edit/:id" component={EditCat}/>
+                                <Route path="/cats/create" component={CreateCat}/>
+                                <Route path="/cats" component={ListCats}/>
+                            </Switch>
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col className="text-center">
+                            <strong>
+                                NestJS Single Page Application
+                            </strong>{" "}
+                            Created with <span className="fa fa-heart text-danger"/> by{" "}
+                            <a href="https://github.com/chapterjason" rel="noopener noreferrer"
+                               target="_blank">
+                                chapterjason
+                            </a>
+                        </Col>
+                    </Row>
+                </Container>
             </HashRouter>
         </ApplicationContextProvider>
     );

@@ -4,6 +4,9 @@ import { ClassType } from "class-transformer/ClassTransformer";
 import { validate, ValidationError } from "class-validator";
 import { FindManyOptions, Repository } from "typeorm";
 import { ValidationException } from "../Exceptions/ValidationException";
+import { ObjectID } from "typeorm/driver/mongodb/typings";
+import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
+import { FindConditions } from "typeorm/find-options/FindConditions";
 
 export abstract class BasicEntityService<Entity, CreateEntity, EditEntity> {
 
@@ -11,6 +14,13 @@ export abstract class BasicEntityService<Entity, CreateEntity, EditEntity> {
 
     public async find(options?: FindManyOptions<Entity>) {
         return this.repository.find(options);
+    }
+
+    public async findOne(id?: string | number | Date | ObjectID, options?: FindOneOptions<Entity>)
+    public async findOne(options?: FindOneOptions<Entity>)
+    public async findOne(conditions?: FindConditions<Entity>, options?: FindOneOptions<Entity>)
+    public async findOne(id?: unknown, options?: unknown) {
+        return this.repository.findOne(id as any, options);
     }
 
     public async update(idOrEntity: number | Entity, data: EditEntity) {

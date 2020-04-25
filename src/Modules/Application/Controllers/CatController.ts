@@ -26,16 +26,23 @@ export class CatController {
         return cat;
     }
 
+    @Get("/:id")
+    public async view(@Param("id") id: string) {
+        const cat: Cat = await this.service.findOne(parseInt(id, 10));
+
+        return cat;
+    }
+
     @Patch("/:id")
-    public async edit(@Body() catData: EditCatData, @Param("id") id: number) {
-        const cat: Cat = await this.service.update(id, catData);
+    public async edit(@Body() catData: EditCatData, @Param("id") id: string) {
+        const cat: Cat = await this.service.update(parseInt(id, 10), catData);
 
         return cat;
     }
 
     @Delete("/:id")
-    public async delete(@Param("id") id: number) {
-        return this.service.delete(id);
+    public async delete(@Param("id") id: string) {
+        return this.service.delete(parseInt(id, 10));
     }
 
 }

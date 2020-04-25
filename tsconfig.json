@@ -3,6 +3,7 @@
     "module": "CommonJS",
     "outDir": "dist",
     "sourceMap": true,
+    "jsx": "react",
     "moduleResolution": "node",
     "target": "ES2018",
     "emitDecoratorMetadata": true,

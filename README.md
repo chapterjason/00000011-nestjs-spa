@@ -27,3 +27,7 @@ Just run the script `./scripts/start.sh`
 ### Stop
 
 Just run the script `./scripts/stop.sh`
+
+### Dependency changes
+
+If you change some dependencies you have to update the container with `yarn run docker:start --build`
