@@ -1,8 +1,0 @@
-{
-  "exec": "ts-node src/main.ts",
-  "ext": "ts,js,css,json,twig",
-  "watch": [
-    "./src",
-    "./templates"
-  ]
-}

@@ -1,0 +1,8 @@
+{
+  "exec": "ts-node --project ./configs/tsconfig.backend.json src/main.ts --inspect",
+  "ext": "ts,js,css,json,twig",
+  "watch": [
+    "./src",
+    "./templates"
+  ]
+}

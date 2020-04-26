@@ -15,7 +15,7 @@ import { CatService } from "./Service/CatService";
         CatService,
     ],
     imports: [
-        TypeOrmModule.forRoot(require(path.join(__dirname, "../../../ormconfig.js"))),
+        TypeOrmModule.forRoot(require(path.join(__dirname, "../../../configs/ormconfig.js"))),
         TypeOrmModule.forFeature([Cat]),
     ],
 })

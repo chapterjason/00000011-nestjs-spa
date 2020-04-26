@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "outDir": "dist",
+    "outDir": "../dist",
     "sourceMap": true,
-    "jsx": "react",
     "moduleResolution": "node",
     "target": "ES2018",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
   "include": [
-    "./src/**/*.ts"
+    "../src/**/*.ts"
   ]
 }

@@ -7,6 +7,6 @@
     "target": "ES2018"
   },
   "include": [
-    "./assets/js/**/*"
+    "../assets/js/**/*"
   ]
 }

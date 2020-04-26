@@ -22,12 +22,20 @@ nestjs-single-page-application/
 
 ### Start
 
-Just run the script `./scripts/start.sh`
+```shell script
+yarn run ts-node ./bin/start.ts
+```
 
 ### Stop
 
-Just run the script `./scripts/stop.sh`
+```shell script
+yarn run ts-node ./bin/stop.ts
+```
 
 ### Dependency changes
 
-If you change some dependencies you have to update the container with `yarn run docker:start --build`
+If you change some dependencies you have to update the container with:
+
+```shell script
+yarn run ts-node ./bin/start.ts --build
+```

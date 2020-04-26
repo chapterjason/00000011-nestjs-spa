@@ -6,23 +6,26 @@ FROM node:${VERSION}-alpine AS base
 
 WORKDIR /app
 
+COPY configs/tsconfig.backend.json ./configs/
+COPY configs/ormconfig.js ./configs/
+COPY ormconfig.js ./
+
 # ---- dependencies ----
 FROM base as dependencies
 
 COPY yarn.lock ./
 COPY package.json ./
-COPY .eslintrc ./
-COPY nodemon.json ./
-COPY tsconfig.json ./
-COPY tsconfig.frontend.json ./
-COPY webpack.config.js ./
-COPY ormconfig.js ./
+COPY configs/.eslintrc.backend ./configs/
+COPY configs/.eslintrc.frontend ./configs/
+COPY configs/webpack.config.js ./configs/
+COPY configs/tsconfig.frontend.json ./configs/
+COPY configs/nodemon.json ./configs/
 
-RUN yarn install --production --pure-lockfile --non-interactive --cache-folder ./ycache
-RUN cp -R node_modules prod_node_modules
-RUN rm -rf node_modules
-RUN yarn install --pure-lockfile --non-interactive --cache-folder ./ycache
-RUN rm -rf ./ycache
+RUN yarn install --production --pure-lockfile --non-interactive --cache-folder ./ycache && \
+    cp -R node_modules prod_node_modules && \
+    rm -rf node_modules && \
+    yarn install --pure-lockfile --non-interactive --cache-folder ./ycache && \
+    rm -rf ./ycache
 
 # ---- build ----
 FROM dependencies as build
@@ -30,7 +33,9 @@ FROM dependencies as build
 COPY assets ./assets
 COPY src ./src
 COPY templates ./templates
-RUN yarn run frontend:prod:build
+
+RUN ls -lar configs
+RUN yarn run encore production --config ./configs/webpack.config.js
 
 # ---- development ----
 FROM dependencies as development
@@ -50,4 +55,4 @@ COPY --from=build /app/public ./public
 
 EXPOSE ${APP_PORT}
 
-CMD yarn run backend:start
+CMD yarn run ts-node --project ./configs/tsconfig.backend.json src/main.ts

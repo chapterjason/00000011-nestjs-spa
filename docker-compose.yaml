@@ -10,7 +10,7 @@ services:
       - appnet
     volumes:
       - './:/app'
-    command: sh -c 'yarn run backend:start'
+    command: sh -c 'yarn run nodemon --config ./configs/nodemon.json'
     ports:
       - "${APP_PORT}:3000"
     expose:
@@ -32,7 +32,7 @@ services:
     volumes:
       - './assets:/app/assets'
       - './public:/app/public'
-    command: sh -c 'yarn run frontend:dev:server --hot --public http://localhost:8080 --host 0.0.0.0'
+    command: sh -c 'yarn run encore dev-server --config ./configs/webpack.config.js --hot --public http://localhost:8080 --host 0.0.0.0'
   database:
     image: mysql:5.7
     restart: always
